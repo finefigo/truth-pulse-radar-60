@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import FactCheck from './FactCheck';
 
 type EmotionType = 'anger' | 'sadness' | 'hope' | 'calm';
 type SentimentType = 'positive' | 'negative' | 'neutral';
@@ -114,6 +115,8 @@ const NewsCard = ({
               </div>
               
               <div className="flex items-center space-x-3">
+                <FactCheck title={title} summary={summary} />
+                
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
