@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,16 +53,32 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				}
+                // Custom sentiment colors
+                positive: {
+                    DEFAULT: '#1ED760', // Spotify green
+                    muted: '#13A452'
+                },
+                neutral: {
+                    DEFAULT: '#6C7192', // Slate blue
+                    muted: '#4A4E69'
+                },
+                negative: {
+                    DEFAULT: '#FF4949', // Bright red
+                    muted: '#D03535'
+                },
+                // Emotion colors
+                emotion: {
+                    anger: '#E53935', // Red
+                    sadness: '#42A5F5', // Blue
+                    hope: '#66BB6A', // Green
+                    calm: '#5E35B1' // Purple
+                },
+                // Bias colors
+                bias: {
+                    left: '#2196F3', // Blue
+                    right: '#F44336', // Red
+                    neutral: '#9E9E9E' // Gray
+                }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +101,21 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-slow': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' },
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-slow': 'pulse-slow 3s infinite ease-in-out',
+				'fade-in': 'fade-in 0.5s ease-out',
 			}
 		}
 	},
