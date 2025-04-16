@@ -4,8 +4,29 @@ import Navbar from '@/components/Navbar';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MessageSquareText, Award, BarChart2, Filter, ChevronDown } from 'lucide-react';
+import { 
+  MessageSquareText, 
+  Award, 
+  BarChart2, 
+  Filter, 
+  ChevronDown,
+  Link as LinkIcon,
+  ThumbsUp,
+  ThumbsDown
+} from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Sample debate data
 const debateData = [
@@ -58,13 +79,6 @@ const debateData = [
 const DebateCard = ({ debate }: { debate: typeof debateData[0] }) => {
   const { toast } = useToast();
   
-  const handleJoinDebate = () => {
-    toast({
-      title: "Feature Coming Soon",
-      description: "The ability to join debates will be available in the next update.",
-    });
-  };
-
   return (
     <Card className="p-5 hover:bg-muted/20 transition-colors">
       <div className="flex justify-between items-start mb-2">
@@ -98,10 +112,86 @@ const DebateCard = ({ debate }: { debate: typeof debateData[0] }) => {
           <div className="h-4 bg-red-500 rounded-r" style={{ width: `${(debate.votesAgainst / (debate.votesFor + debate.votesAgainst)) * 100}px` }}></div>
         </div>
         
-        <Button onClick={handleJoinDebate} size="sm" className="ml-4">
-          <MessageSquareText className="h-4 w-4 mr-2" />
-          Join Debate
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="sm" className="ml-4">
+              <MessageSquareText className="h-4 w-4 mr-2" />
+              Join Debate
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[500px]">
+            <DialogHeader>
+              <DialogTitle>Join Debate: {debate.title}</DialogTitle>
+              <DialogDescription>
+                Share your perspective with evidence and sources.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-2">
+                <Label htmlFor="stance" className="col-span-4">
+                  Your Stance
+                </Label>
+                <div className="col-span-4 flex gap-4">
+                  <Button variant="outline" size="sm" className="flex-1">
+                    <ThumbsUp className="h-4 w-4 mr-2" /> Support
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex-1">
+                    Neutral
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex-1">
+                    <ThumbsDown className="h-4 w-4 mr-2" /> Oppose
+                  </Button>
+                </div>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-2">
+                <Label htmlFor="argument" className="col-span-4">
+                  Your Argument
+                </Label>
+                <Textarea
+                  id="argument"
+                  placeholder="Enter your argument with clear reasoning..."
+                  className="col-span-4"
+                  rows={4}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-2">
+                <Label htmlFor="source" className="col-span-4">
+                  Source URL (Required)
+                </Label>
+                <div className="col-span-4 flex">
+                  <div className="bg-muted p-2 rounded-l-md flex items-center">
+                    <LinkIcon className="h-4 w-4" />
+                  </div>
+                  <Input
+                    id="source"
+                    placeholder="https://example.com/article"
+                    className="rounded-l-none"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground col-span-4">
+                  All arguments must be backed by at least one credible source.
+                </p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox id="tos" />
+                <Label htmlFor="tos" className="text-xs">
+                  I agree to maintain a respectful tone and acknowledge that AI will analyze my argument for factual accuracy.
+                </Label>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <DialogTrigger asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogTrigger>
+              <Button onClick={() => {
+                toast({
+                  title: "Argument Submitted",
+                  description: "Your argument is being analyzed by GroqLens and will appear shortly.",
+                });
+              }}>Submit Argument</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Card>
   );
