@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
 import Navbar from '@/components/Navbar';
 import NewsCard from '@/components/NewsCard';
 import SentimentDashboard from '@/components/SentimentDashboard';
