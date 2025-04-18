@@ -1,11 +1,12 @@
-
 import React from 'react';
-import { ArrowUpRight, BarChart2, MessageSquare, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { ArrowUpRight, BarChart2, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import FactCheck from './FactCheck';
+import Comments from './Comments';
+import SocialShare from './SocialShare';
 
 type EmotionType = 'anger' | 'sadness' | 'hope' | 'calm';
 type SentimentType = 'positive' | 'negative' | 'neutral';
@@ -23,9 +24,11 @@ interface NewsCardProps {
   imageUrl?: string;
   url: string;
   votes: number;
+  id?: number;
 }
 
 const NewsCard = ({
+  id,
   title,
   source,
   summary,
@@ -37,15 +40,13 @@ const NewsCard = ({
   imageUrl,
   url,
   votes
-}: NewsCardProps) => {
-  // Determine sentiment color
+}: NewsCardProps & { id?: number }) => {
   const sentimentColor = {
     positive: "gradient-positive",
     neutral: "gradient-neutral",
     negative: "gradient-negative"
   }[sentiment];
   
-  // Determine emotion color
   const emotionColor = {
     anger: "bg-emotion-anger",
     sadness: "bg-emotion-sadness",
@@ -53,7 +54,6 @@ const NewsCard = ({
     calm: "bg-emotion-calm"
   }[emotion];
   
-  // Get bias label
   const biasLabel = {
     left: "Left-leaning",
     right: "Right-leaning",
@@ -64,14 +64,16 @@ const NewsCard = ({
     <Card className={cn("news-card overflow-hidden animate-fade-in")}>
       <div className="flex flex-col h-full">
         <div className="flex items-stretch">
-          {/* Sentiment indicator */}
           <div className={cn("w-1.5", sentimentColor)}></div>
 
           <div className="flex-1">
             <CardHeader className="pb-3 relative">
               <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-sm text-muted-foreground">{source} • {timeAgo}</p>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-muted-foreground">{source} • {timeAgo}</p>
+                    <SocialShare title={title} url={url} />
+                  </div>
                   <h3 className="text-lg font-semibold mt-1 pr-6 line-clamp-2">{title}</h3>
                 </div>
 
@@ -102,45 +104,35 @@ const NewsCard = ({
               <p className="text-sm text-foreground/80 line-clamp-2">{summary}</p>
             </CardContent>
 
-            <CardFooter className="pt-0 flex justify-between items-center">
-              <div className="flex items-center space-x-2">
-                <Badge variant="outline" className={cn("text-xs", emotionColor)}>
-                  {emotion}
-                </Badge>
-                {urgency > 7 && (
-                  <Badge variant="destructive" className="text-xs">
-                    Breaking
+            <CardFooter className="pt-0 flex-col space-y-4">
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center space-x-2">
+                  <Badge variant="outline" className={cn("text-xs", emotionColor)}>
+                    {emotion}
                   </Badge>
-                )}
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <FactCheck title={title} summary={summary} />
+                  {urgency > 7 && (
+                    <Badge variant="destructive" className="text-xs">
+                      Breaking
+                    </Badge>
+                  )}
+                </div>
                 
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className="flex items-center text-muted-foreground text-xs">
-                        <MessageSquare className="h-3 w-3 mr-1" />
-                        <span>24</span>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>24 comments</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                
-                <div className="flex items-center space-x-1 text-muted-foreground">
-                  <button className="hover:text-green-500">
-                    <ThumbsUp className="h-3 w-3" />
-                  </button>
-                  <span className="text-xs">{votes}</span>
-                  <button className="hover:text-red-500">
-                    <ThumbsDown className="h-3 w-3" />
-                  </button>
+                <div className="flex items-center space-x-3">
+                  <FactCheck title={title} summary={summary} />
+                  
+                  <div className="flex items-center space-x-1 text-muted-foreground">
+                    <button className="hover:text-green-500 transition-colors">
+                      <ThumbsUp className="h-3 w-3" />
+                    </button>
+                    <span className="text-xs">{votes}</span>
+                    <button className="hover:text-red-500 transition-colors">
+                      <ThumbsDown className="h-3 w-3" />
+                    </button>
+                  </div>
                 </div>
               </div>
+              
+              {id && <Comments postId={id} />}
             </CardFooter>
           </div>
           
