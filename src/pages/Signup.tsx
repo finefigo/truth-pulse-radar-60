@@ -66,10 +66,10 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-8 md:py-0">
+      <div className="w-full max-w-sm md:max-w-md space-y-6 md:space-y-8">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-bold tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
             Create an account
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
@@ -77,9 +77,9 @@ const Signup = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSignup} className="mt-8 space-y-6">
-          <div className="space-y-4">
-            <div className="space-y-2">
+        <form onSubmit={handleSignup} className="space-y-4 md:space-y-6">
+          <div className="space-y-3 md:space-y-4">
+            <div className="space-y-1.5 md:space-y-2">
               <Label htmlFor="email">Email address</Label>
               <Input
                 id="email"
@@ -88,9 +88,10 @@ const Signup = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="h-11 md:h-10 text-base md:text-sm"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1.5 md:space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
@@ -100,24 +101,25 @@ const Signup = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
+                className="h-11 md:h-10 text-base md:text-sm"
               />
             </div>
           </div>
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-11 md:h-10 text-base md:text-sm"
             disabled={loading}
           >
             <UserRoundPlus className="mr-2 h-5 w-5" />
             {loading ? "Creating account..." : "Sign up"}
           </Button>
 
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-center text-sm text-muted-foreground pt-2">
             Already have an account?{" "}
             <Button
               variant="link"
-              className="p-0 h-auto font-semibold"
+              className="p-0 h-auto font-semibold text-base md:text-sm"
               onClick={() => navigate("/login")}
             >
               Sign in
