@@ -1,13 +1,29 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Bell, MessageSquarePlus, Search, User, MenuIcon } from "lucide-react";
+import { Bell, LogOut, MessageSquarePlus, Search, User, LogIn } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseKey 
+  ? createClient(supabaseUrl, supabaseKey)
+  : null;
 
 const Navbar = () => {
   const { toast } = useToast();
   const location = useLocation();
+  const navigate = useNavigate();
   
   const handleNotificationClick = () => {
     toast({
@@ -17,6 +33,34 @@ const Navbar = () => {
   };
   
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = async () => {
+    if (!supabase) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Unable to log out. Supabase configuration is missing.",
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+
+      toast({
+        title: "Logged out successfully",
+        description: "You have been logged out of your account.",
+      });
+      navigate('/login');
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An error occurred while logging out.",
+      });
+    }
+  };
   
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm p-3">
@@ -68,9 +112,38 @@ const Navbar = () => {
           <Button variant="ghost" size="icon">
             <Search className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon">
-            <User className="h-5 w-5" />
-          </Button>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <User className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {supabase?.auth.getUser() ? (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="w-full cursor-pointer">
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-red-600 cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <DropdownMenuItem asChild>
+                  <Link to="/login" className="w-full cursor-pointer">
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Log in
+                  </Link>
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button className="hidden md:flex">
             <MessageSquarePlus className="h-5 w-5 mr-2" />
             Create Post
