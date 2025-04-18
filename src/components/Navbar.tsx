@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Bell, LogOut, MessageSquarePlus, Search, User, LogIn } from "lucide-react";
+import { Bell, LogOut, MessageSquarePlus, Menu, Search, User, LogIn } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -13,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = supabaseUrl && supabaseKey 
@@ -66,7 +64,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm p-3">
       <div className="container flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <MenuIcon className="h-6 w-6 text-muted-foreground md:hidden" />
+          <Menu className="h-6 w-6 text-muted-foreground md:hidden" />
           <Link to="/" className="flex items-center">
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
               WorldWatch

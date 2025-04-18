@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { useToast } from "@/hooks/use-toast";
-import { UserProfile } from '@/components/UserProfile';
+import UserProfile from '@/components/UserProfile'; // Fixed import statement
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
