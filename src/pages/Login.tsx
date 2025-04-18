@@ -5,12 +5,19 @@ import { createClient } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 // Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Add a check to ensure the environment variables are defined
+const supabase = supabaseUrl && supabaseKey 
+  ? createClient(supabaseUrl, supabaseKey)
+  : createClient(
+      // Provide fallback values or log a meaningful error
+      'https://your-project-url.supabase.co',
+      'your-anon-key'
+    );
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -24,6 +31,17 @@ const Login = () => {
     setLoading(true);
 
     try {
+      // Check if Supabase was properly initialized
+      if (!supabaseUrl || !supabaseKey) {
+        toast({
+          variant: "destructive",
+          title: "Configuration Error",
+          description: "Supabase configuration is missing. Please check your environment variables.",
+        });
+        setLoading(false);
+        return;
+      }
+      
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
