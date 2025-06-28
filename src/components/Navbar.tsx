@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Bell, LogOut, MessageSquarePlus, Menu, Search, User, LogIn } from "lucide-react";
@@ -65,13 +66,14 @@ const Navbar = () => {
       <div className="container flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Menu className="h-6 w-6 text-muted-foreground md:hidden" />
-          <Link to="/" className="flex items-center">
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-              WorldWatch
-            </span>
-            <span className="text-xl font-bold text-foreground">×</span>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent to-primary">
-              GroqLens
+          <Link to="/" className="flex items-center flex-col">
+            <div className="flex items-center">
+              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+                TruthNet
+              </span>
+            </div>
+            <span className="text-xs text-muted-foreground">
+              Powered by Truth Pulse Engine
             </span>
           </Link>
         </div>
@@ -144,7 +146,7 @@ const Navbar = () => {
 
           <Button className="hidden md:flex">
             <MessageSquarePlus className="h-5 w-5 mr-2" />
-            Create Post
+            Submit News Claim
           </Button>
         </div>
       </div>

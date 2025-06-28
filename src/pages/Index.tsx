@@ -154,7 +154,10 @@ const Index = () => {
           {/* Main content area (spans 2 columns on desktop) */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold">WorldWatch × GroqLens</h1>
+              <div>
+                <h1 className="text-2xl font-bold">TruthNet</h1>
+                <p className="text-sm text-muted-foreground">AI-Powered News Verification & Civil Debate Platform</p>
+              </div>
               <div className="flex items-center">
                 <Button variant="outline" size="sm" className="flex items-center mr-2">
                   <Filter className="h-4 w-4 mr-2" />
@@ -178,11 +181,11 @@ const Index = () => {
                   </TabsTrigger>
                   <TabsTrigger value="community-feed" className="flex items-center">
                     <MessageSquareText className="h-4 w-4 mr-2" />
-                    WorldWatch Community
+                    TruthNet Community
                   </TabsTrigger>
                   <TabsTrigger value="dashboard" className="flex items-center">
                     <BarChart2 className="h-4 w-4 mr-2" />
-                    Sentiment Dashboard
+                    Truth Timeline
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -237,7 +240,7 @@ const Index = () => {
                   
                   <div className="flex justify-center py-4">
                     <Button>
-                      Load More Posts
+                      Load More Verified Claims
                     </Button>
                   </div>
                 </div>
