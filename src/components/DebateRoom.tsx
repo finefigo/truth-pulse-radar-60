@@ -38,7 +38,7 @@ interface DebateRoomProps {
 const DebateRoom: React.FC<DebateRoomProps> = ({ claim }) => {
   const [selectedSide, setSelectedSide] = useState<'A' | 'B' | null>(null);
   const [argument, setArgument] = useState('');
-  const [arguments, setArguments] = useState<DebateArgument[]>([]);
+  const [debateArguments, setDebateArguments] = useState<DebateArgument[]>([]);
   const [aiParticipating, setAiParticipating] = useState(false);
   const { toast } = useToast();
 
@@ -66,7 +66,7 @@ const DebateRoom: React.FC<DebateRoomProps> = ({ claim }) => {
       }
     };
 
-    setArguments(prev => [...prev, newArgument]);
+    setDebateArguments(prev => [...prev, newArgument]);
     setArgument('');
 
     toast({
@@ -75,8 +75,8 @@ const DebateRoom: React.FC<DebateRoomProps> = ({ claim }) => {
     });
 
     // Check if AI should join the debate
-    const sideAArgs = arguments.filter(arg => arg.side === 'A').length + (selectedSide === 'A' ? 1 : 0);
-    const sideBArgs = arguments.filter(arg => arg.side === 'B').length + (selectedSide === 'B' ? 1 : 0);
+    const sideAArgs = debateArguments.filter(arg => arg.side === 'A').length + (selectedSide === 'A' ? 1 : 0);
+    const sideBArgs = debateArguments.filter(arg => arg.side === 'B').length + (selectedSide === 'B' ? 1 : 0);
     
     if (sideAArgs >= 1 && sideBArgs >= 1 && !aiParticipating) {
       setTimeout(() => addAiArgument(), 2000);
@@ -100,7 +100,7 @@ const DebateRoom: React.FC<DebateRoomProps> = ({ claim }) => {
       }
     };
 
-    setArguments(prev => [...prev, aiArgument]);
+    setDebateArguments(prev => [...prev, aiArgument]);
 
     toast({
       title: "AI joined the debate",
@@ -157,11 +157,11 @@ const DebateRoom: React.FC<DebateRoomProps> = ({ claim }) => {
         </Button>
       </div>
 
-      {arguments.length > 0 && (
+      {debateArguments.length > 0 && (
         <div className="space-y-3">
           <h4 className="font-medium">Debate Arguments</h4>
           <div className="space-y-3">
-            {arguments.map((arg) => (
+            {debateArguments.map((arg) => (
               <Card key={arg.id} className="relative">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
