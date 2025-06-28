@@ -92,12 +92,6 @@ const Navbar = () => {
             Debates
           </Link>
           <Link 
-            to="/newsletter" 
-            className={`transition-colors ${isActive('/newsletter') ? 'text-primary' : 'text-foreground/80 hover:text-primary'}`}
-          >
-            Newsletter
-          </Link>
-          <Link 
             to="#" 
             className="text-foreground/80 hover:text-primary transition-colors"
           >

@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Debates from "./pages/Debates";
-import Newsletter from "./pages/Newsletter";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
@@ -23,7 +22,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/debates" element={<Debates />} />
-          <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
