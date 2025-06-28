@@ -9,6 +9,8 @@ import AskGroq from '@/components/AskGroq';
 import UserProfile from '@/components/UserProfile';
 import PostEditor from '@/components/PostEditor';
 import VotingSystem from '@/components/VotingSystem';
+import ClaimVerifier from '@/components/ClaimVerifier';
+import UserValidation from '@/components/UserValidation';
 import { Button } from '@/components/ui/button';
 import { 
   BarChart2, 
@@ -16,7 +18,8 @@ import {
   Globe, 
   MessageSquareText, 
   RefreshCcw,
-  ChevronDown
+  ChevronDown,
+  Shield
 } from 'lucide-react';
 
 // Sample news data
@@ -156,7 +159,7 @@ const Index = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold">TruthNet</h1>
-                <p className="text-sm text-muted-foreground">AI-Powered News Verification & Civil Debate Platform</p>
+                <p className="text-sm text-muted-foreground">Powered by TruthNet</p>
               </div>
               <div className="flex items-center">
                 <Button variant="outline" size="sm" className="flex items-center mr-2">
@@ -170,6 +173,9 @@ const Index = () => {
                 </Button>
               </div>
             </div>
+
+            {/* Claim Verification Section */}
+            <ClaimVerifier />
             
             {/* Feed Tabs */}
             <Tabs defaultValue="ai-feed" value={activeTab} onValueChange={setActiveTab}>
@@ -187,6 +193,10 @@ const Index = () => {
                     <BarChart2 className="h-4 w-4 mr-2" />
                     Truth Timeline
                   </TabsTrigger>
+                  <TabsTrigger value="verification" className="flex items-center">
+                    <Shield className="h-4 w-4 mr-2" />
+                    Claim Verification
+                  </TabsTrigger>
                 </TabsList>
               </div>
               
@@ -199,6 +209,7 @@ const Index = () => {
                   {newsData.map((news) => (
                     <NewsCard
                       key={news.id}
+                      id={news.id}
                       title={news.title}
                       source={news.source}
                       summary={news.summary}
@@ -224,6 +235,7 @@ const Index = () => {
                   {communityPosts.map((post) => (
                     <NewsCard
                       key={post.id}
+                      id={post.id}
                       title={post.title}
                       source={`Author: ${post.author}`}
                       summary={post.summary}
@@ -249,11 +261,31 @@ const Index = () => {
               <TabsContent value="dashboard" className="mt-4 animate-fade-in">
                 <SentimentDashboard />
               </TabsContent>
+
+              <TabsContent value="verification" className="mt-4 space-y-6 animate-fade-in">
+                <div className="text-center py-8">
+                  <Shield className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <h2 className="text-xl font-bold mb-2">Advanced Claim Verification</h2>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    Use our AI-powered fact-checking system to verify news claims, submit evidence, and participate in public debates.
+                  </p>
+                </div>
+              </TabsContent>
             </Tabs>
           </div>
           
           {/* Sidebar (spans 1 column) */}
           <div className="space-y-6">
+            <UserValidation 
+              score={86}
+              username="Current User"
+              recentActivity={{
+                correctClaims: 12,
+                incorrectClaims: 2,
+                debatesWon: 5
+              }}
+            />
+
             <AskGroq />
             
             {activeTab === "community-feed" && (
